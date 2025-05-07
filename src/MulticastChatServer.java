@@ -1,27 +1,30 @@
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
+import java.net.MulticastSocket;
 
 public class MulticastChatServer {
     public static void main(String args[]) throws Exception {
 
-        int portnumber = 5001; // Valt portnummer
+        // Default port number we are going to use
+        int portnumber = 5001; // Uppdaterat till ett passande portnummer
         if (args.length >= 1) {
             portnumber = Integer.parseInt(args[0]);
         }
 
-        // Skapa MulticastSocket
+        // Create a MulticastSocket
         MulticastSocket serverMulticastSocket = new MulticastSocket(portnumber);
         System.out.println("MulticastSocket is created at port " + portnumber);
 
-        // Bestäm IP-adress för multicast-grupp
+        // Determine the IP address of a host, given the host name
         InetAddress group = InetAddress.getByName("225.4.5.6");
 
-        // Gå med i gruppen
+        // Join the multicast group
         serverMulticastSocket.joinGroup(group);
         System.out.println("joinGroup method is called...");
 
         boolean infinite = true;
 
-        // Ta emot meddelanden kontinuerligt
+        // Continually receive data and print them
         while (infinite) {
             byte buf[] = new byte[1024];
             DatagramPacket data = new DatagramPacket(buf, buf.length);
@@ -30,7 +33,7 @@ public class MulticastChatServer {
             System.out.println("Message received from client = " + msg);
         }
 
-        // Stäng socket (nåbar endast om loopen avslutas)
-        // serverMulticastSocket.close();
+        // Unreachable in current loop, but included for completeness
+        serverMulticastSocket.close();
     }
 }
