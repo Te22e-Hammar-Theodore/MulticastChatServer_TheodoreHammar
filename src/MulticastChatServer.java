@@ -32,8 +32,6 @@ public class MulticastChatServer {
             String msg = new String(data.getData()).trim();
             System.out.println("Message received from client = " + msg);
         }
-
-        // Unreachable in current loop, but included for completeness
         serverMulticastSocket.close();
     }
 }
